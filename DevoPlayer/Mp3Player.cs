@@ -13,9 +13,9 @@ namespace DevoPlayer
 
         public string currentSongFilePath;
         public long currentSongLenght;
-        public Form1 form;
+        public Form12 form;
 
-        public Mp3Player(Form1 form) 
+        public Mp3Player(Form12 form) 
         {
             this.form = form;
 

@@ -18,13 +18,13 @@ namespace DevoPlayer
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-        Form1 form;
+        Form12 form;
 
         int pauseId = 0;     // The id of the hotkey. 
         int prevId = 1;
         int nextId = 2;
 
-        public GlobalHotkeys(Form1 form)
+        public GlobalHotkeys(Form12 form)
         {
             this.form = form;
             register();

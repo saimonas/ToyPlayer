@@ -1,6 +1,6 @@
 ﻿namespace DevoPlayer
 {
-    partial class Form1
+    partial class Form12
     {
         /// <summary>
         /// Required designer variable.
@@ -45,7 +45,7 @@
             this.tkbVolume = new System.Windows.Forms.TrackBar();
             this.lblShuffleSongsLeft = new System.Windows.Forms.Label();
             this.lblTotalSongs = new System.Windows.Forms.Label();
-            this.lvPLaylist = new System.Windows.Forms.ListView();
+            this.lvPlaylist1 = new System.Windows.Forms.ListView();
             this.chkIsAutoSave = new System.Windows.Forms.CheckBox();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -196,27 +196,27 @@
             this.lblTotalSongs.TabIndex = 22;
             this.lblTotalSongs.Text = "Total songs left: ";
             // 
-            // lvPLaylist
+            // lvPlaylist1
             // 
-            this.lvPLaylist.AllowColumnReorder = true;
-            this.lvPLaylist.AllowDrop = true;
-            this.lvPLaylist.AutoArrange = false;
-            this.lvPLaylist.FullRowSelect = true;
-            this.lvPLaylist.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            this.lvPlaylist1.AllowColumnReorder = true;
+            this.lvPlaylist1.AllowDrop = true;
+            this.lvPlaylist1.AutoArrange = false;
+            this.lvPlaylist1.FullRowSelect = true;
+            this.lvPlaylist1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem3});
-            this.lvPLaylist.Location = new System.Drawing.Point(3, 138);
-            this.lvPLaylist.MultiSelect = false;
-            this.lvPLaylist.Name = "lvPLaylist";
-            this.lvPLaylist.Size = new System.Drawing.Size(722, 321);
-            this.lvPLaylist.TabIndex = 24;
-            this.lvPLaylist.UseCompatibleStateImageBehavior = false;
-            this.lvPLaylist.View = System.Windows.Forms.View.Details;
-            this.lvPLaylist.DragDrop += new System.Windows.Forms.DragEventHandler(this.playlist_DragDrop);
-            this.lvPLaylist.DragEnter += new System.Windows.Forms.DragEventHandler(this.playlist_DragEnter);
-            this.lvPLaylist.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvPLaylist_MouseDoubleClick);
-            this.lvPLaylist.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvPLaylist_MouseDown);
-            this.lvPLaylist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvPLaylist_MouseMove);
-            this.lvPLaylist.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lvPLaylist_MouseUp);
+            this.lvPlaylist1.Location = new System.Drawing.Point(3, 138);
+            this.lvPlaylist1.MultiSelect = false;
+            this.lvPlaylist1.Name = "lvPlaylist1";
+            this.lvPlaylist1.Size = new System.Drawing.Size(722, 321);
+            this.lvPlaylist1.TabIndex = 24;
+            this.lvPlaylist1.UseCompatibleStateImageBehavior = false;
+            this.lvPlaylist1.View = System.Windows.Forms.View.Details;
+            this.lvPlaylist1.DragDrop += new System.Windows.Forms.DragEventHandler(this.playlist_DragDrop);
+            this.lvPlaylist1.DragEnter += new System.Windows.Forms.DragEventHandler(this.playlist_DragEnter);
+            this.lvPlaylist1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvPLaylist_MouseDoubleClick);
+            this.lvPlaylist1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvPLaylist_MouseDown);
+            this.lvPlaylist1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvPLaylist_MouseMove);
+            this.lvPlaylist1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lvPLaylist_MouseUp);
             // 
             // chkIsAutoSave
             // 
@@ -260,7 +260,7 @@
             this.pbxVolume.TabStop = false;
             this.pbxVolume.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbxVolume_MouseDown);
             // 
-            // Form1
+            // Form12
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -270,7 +270,7 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.chkIsAutoSave);
-            this.Controls.Add(this.lvPLaylist);
+            this.Controls.Add(this.lvPlaylist1);
             this.Controls.Add(this.lblTotalSongs);
             this.Controls.Add(this.lblShuffleSongsLeft);
             this.Controls.Add(this.tkbVolume);
@@ -286,8 +286,8 @@
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.btnOpen);
             this.KeyPreview = true;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Form12";
+            this.Text = "Toy Player";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
@@ -316,7 +316,7 @@
         private System.Windows.Forms.TrackBar tkbVolume;
         private System.Windows.Forms.Label lblShuffleSongsLeft;
         private System.Windows.Forms.Label lblTotalSongs;
-        private System.Windows.Forms.ListView lvPLaylist;
+        private System.Windows.Forms.ListView lvPlaylist1;
         private System.Windows.Forms.CheckBox chkIsAutoSave;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnSave;

@@ -26,7 +26,7 @@ using System.Windows.Input;
 
 namespace DevoPlayer
 {
-    public partial class Form1 : Form
+    public partial class Form12 : Form
     {
         private bool debug = false;
 
@@ -39,13 +39,12 @@ namespace DevoPlayer
         // These two dictionaries are used to represent the playlist. The key is the ID in the playlist, and using that key
         // you can get the relevant track object, containing such information such as file path, or duration
         private Dictionary<int, Track> memoryPlaylist = new Dictionary<int, Track>();
-        private Playlist mainPlaylist = new Playlist();
+        private Playlist mainPlaylist;
         // a separate dictionary is used for shuffle functionality
         private Dictionary<int, Track> shufflePlaylist = new Dictionary<int, Track>();
 
         private int currentSongId;
         private bool shuffleEnabled = false;
-        private int rewindCount = 0;
         string currentSeekBarPositionInString;
 
         // if the player is paused or not
@@ -74,11 +73,14 @@ namespace DevoPlayer
         **
         **
         */
-        public Form1()
+        public Form12()
         {
             InitializeComponent();
             player = new Mp3Player(this);
             gh = new GlobalHotkeys(this);
+
+            mainPlaylist = new Playlist(lvPlaylist1);
+
 
             // The initial value of where the song should start playing from is the beginning
             seekBar.Value = 0;
@@ -86,15 +88,8 @@ namespace DevoPlayer
             currentSongId = 0;
             currentSeekBarPositionInString = "0";
 
-
-
-
-
-            SetUpListView();
-
-
-            LoadPlaylist();
-            LoadSettings();
+            //LoadPlaylist();
+            //LoadSettings();
 
             setUpIcons();
             setUpToolTips();
@@ -136,46 +131,18 @@ namespace DevoPlayer
         }
 
         // Add headers to the playlist, and make sure the view is set to "Details"
-        private void SetUpListView()
-        {
-            String[] playlistColumnNameList = new String[] { "ID", "Artist", "Title", "Length", "Date Added" };
 
-            foreach (String columnName in playlistColumnNameList)
-            {
-                lvPLaylist.Columns.Add(columnName);
-            }
-
-            // Default width of each column
-            lvPLaylist.View = View.Details;
-            lvPLaylist.Columns[0].Width = 30;
-            lvPLaylist.Columns[1].Width = 100;
-            lvPLaylist.Columns[2].Width = 250;
-            lvPLaylist.Columns[3].Width = 39;
-            lvPLaylist.Columns[4].Width = 111;
-        }
 
         // Add a song from a file to a playlist that is stored in nemory
         private int addToMainPlaylist(Track track)
         {
+            Console.WriteLine("Called");
             PlaylistItem item = mainPlaylist.add(track);
-            addToListView(item);
             return item.position;
 
         }
 
-        // Add a song from the playlist that is in memory, to the listview, so it would be 
-        // visible to the user
-        private void addToListView(PlaylistItem item)
-        {
-            ListViewItem lvi = new ListViewItem(item.position.ToString());
-            lvi.SubItems.Add(item.track.artist);
-            lvi.SubItems.Add(item.track.title);
-            lvi.SubItems.Add(item.track.length);
-            lvi.SubItems.Add(item.track.dateAdded.ToString());
 
-            lvPLaylist.Items.Add(lvi);
-
-        }
 
         // Adds the previous song to the playlist of songs that were already played
         // If the current song is already the last thing played, it will not add to past playlist
@@ -186,24 +153,24 @@ namespace DevoPlayer
 
 
             if (mainPlaylist.size > 0)
-            unpaintItemAt(getListViewItemIndexById(currentSongId));
+                unpaintItemAt(getListViewItemIndexById(currentSongId));
             currentSongId = i;
             paintAsCurrentSong(getListViewItemIndexById(currentSongId));
         }
 
         private void paintAsCurrentSong(int n)
         {
-            if (lvPLaylist.Items[n] != null)
+            if (lvPlaylist1.Items[n] != null)
             {
-                lvPLaylist.Items[n].BackColor = Color.Gray;
-                lvPLaylist.Items[n].ForeColor = Color.Black;
+                lvPlaylist1.Items[n].BackColor = Color.Gray;
+                lvPlaylist1.Items[n].ForeColor = Color.Black;
             }
 
         }
 
         private void lvPLaylist_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            String currentSongIdString = lvPLaylist.SelectedItems[0].SubItems[0].Text;
+            String currentSongIdString = lvPlaylist1.SelectedItems[0].SubItems[0].Text;
             int currentSongId = int.Parse(currentSongIdString);
             setCurrentSong(currentSongId);
             OpenCurrentSong();
@@ -255,6 +222,7 @@ namespace DevoPlayer
             string title = currentTrack.title;
             string text = String.Format("{0}{1} - {2}", prefix, artist, title);
             lblCurrentlyPlaying.Text = text;
+            this.Text = String.Format("{0} - {1}", artist, title);
 
             // delete updateCurrentSongLenght() if below works
             lblCurrentSongLength.Text = currentTrack.length;
@@ -339,11 +307,7 @@ namespace DevoPlayer
 
 
 
-        private void clearPlaylist()
-        {
-            lvPLaylist.Items.Clear();
-            mainPlaylist.clear();
-        }
+
 
         private void playlist_DragEnter(object sender, DragEventArgs e)
         {
@@ -477,7 +441,6 @@ namespace DevoPlayer
                     string path = dlgOpen.FileName;
                     if (extensionIsSupported(path))
                     {
-                        clearPlaylist();
                         int songId = addToMainPlaylist(new Track(path));
                         setCurrentSong(songId);
                         OpenCurrentSong();
@@ -589,11 +552,11 @@ namespace DevoPlayer
         {
             if (shuffleEnabled)
             {
-                
+
             }
             else
             {
-                if(currentSongId > 0)
+                if (currentSongId > 0)
                 {
 
                 }
@@ -702,7 +665,7 @@ namespace DevoPlayer
                 string[] lines = System.IO.File.ReadAllLines(savePath);
 
 
-                clearPlaylist();
+                mainPlaylist.clear();
 
                 foreach (string line in lines)
                 {
@@ -829,8 +792,8 @@ namespace DevoPlayer
 
         private void lvPLaylist_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseDownItem = lvPLaylist.GetItemAt(e.X, e.Y);
-            if (mouseDownItem != null && lvPLaylist.SelectedItems.Count > 0 && lvPLaylist.SelectedItems[0].Equals(mouseDownItem))
+            mouseDownItem = lvPlaylist1.GetItemAt(e.X, e.Y);
+            if (mouseDownItem != null && lvPlaylist1.SelectedItems.Count > 0 && lvPlaylist1.SelectedItems[0].Equals(mouseDownItem))
             {
                 isItemHeld = true;
                 newMovedTrackIndex = mouseDownItem.Index;
@@ -847,7 +810,7 @@ namespace DevoPlayer
 
             if (isItemHeld)
             {
-                ListViewItem itemAtMousePosition = lvPLaylist.GetItemAt(e.X, e.Y);
+                ListViewItem itemAtMousePosition = lvPlaylist1.GetItemAt(e.X, e.Y);
                 if (itemAtMousePosition != null && itemAtMousePosition.Index != newMovedTrackIndex)
                 {
                     setNewIndex(itemAtMousePosition.Index);
@@ -865,19 +828,19 @@ namespace DevoPlayer
 
         private void paintNewLocation(int n)
         {
-            lvPLaylist.Items[n].BackColor = Color.Black;
-            lvPLaylist.Items[n].ForeColor = Color.White;
+            lvPlaylist1.Items[n].BackColor = Color.Black;
+            lvPlaylist1.Items[n].ForeColor = Color.White;
         }
 
         private void unpaintItemAt(int n)
         {
-            if(n < 0)
+            if (n < 0)
             {
                 Console.WriteLine("Tried to unpaint item at position {0}, only non-negative positions are allowed. Ignored", n);
                 return;
             }
-            lvPLaylist.Items[n].BackColor = Color.White;
-            lvPLaylist.Items[n].ForeColor = Color.Black;
+            lvPlaylist1.Items[n].BackColor = Color.White;
+            lvPlaylist1.Items[n].ForeColor = Color.Black;
         }
 
         private void lvPLaylist_MouseUp1(object sender, MouseEventArgs e) { }
@@ -886,12 +849,13 @@ namespace DevoPlayer
         {
             if (isItemHeld)
             {
-                if (!newMovedTrackIndex.Equals(lvPLaylist.SelectedItems[0].Index))
+                if (!newMovedTrackIndex.Equals(lvPlaylist1.SelectedItems[0].Index))
                 {
                     unpaintItemAt(newMovedTrackIndex);
                 }
-                lvPLaylist.Items.RemoveAt(mouseDownItem.Index);
-                lvPLaylist.Items.Insert(newMovedTrackIndex, mouseDownItem);
+                mainPlaylist.move(mouseDownItem.Index, newMovedTrackIndex);
+                //lvPlaylist1.Items.RemoveAt(mouseDownItem.Index);
+                //lvPlaylist1.Items.Insert(newMovedTrackIndex, mouseDownItem);
                 isItemHeld = false;
             }
 
@@ -958,13 +922,13 @@ namespace DevoPlayer
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
 
-            if (e.KeyCode == Keys.Delete && lvPLaylist.SelectedItems.Count > 0)
+            if (e.KeyCode == Keys.Delete && lvPlaylist1.SelectedItems.Count > 0)
             {
 
-                string stringId = lvPLaylist.SelectedItems[0].SubItems[0].Text;
+                string stringId = lvPlaylist1.SelectedItems[0].SubItems[0].Text;
                 int id = int.Parse(stringId);
-                mainPlaylist.remove(id);
-                lvPLaylist.Items.Remove(lvPLaylist.SelectedItems[0]);
+                mainPlaylist.removeAt(id);
+                //mainPlaylist.remove(lvPlaylistOLD.SelectedItems[0]);
 
             }
         }
@@ -972,7 +936,7 @@ namespace DevoPlayer
         private int getListViewItemIndexById(int n)
         {
             string id = n.ToString();
-            foreach (ListViewItem item in lvPLaylist.Items)
+            foreach (ListViewItem item in lvPlaylist1.Items)
             {
                 if (item.SubItems[0].Text == id)
                 {

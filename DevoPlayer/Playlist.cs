@@ -18,15 +18,37 @@ namespace DevoPlayer
         private int IEnumerablePosition = -1;
 
         private List<PlaylistItem> memoryPlaylist;
-        private ListView lvPlaylist;
+        public ListView lvPlaylist { get; set; }
 
 
         public int size { get { return memoryPlaylist.Count;} }
 
-        public Playlist()
+        public Playlist(ListView listView)
         {
             this.memoryPlaylist = new List<PlaylistItem>();
             this.isEmpty = true;
+            this.lvPlaylist = listView;
+            SetUpListView();
+            
+        }
+
+        private void SetUpListView()
+        {
+
+            String[] playlistColumnNameList = new String[] { "ID", "Artist", "Title", "Length", "Date Added" };
+
+            foreach (String columnName in playlistColumnNameList)
+            {
+                lvPlaylist.Columns.Add(columnName);
+            }
+
+            // Default width of each column
+            lvPlaylist.View = View.Details;
+            lvPlaylist.Columns[0].Width = 30;
+            lvPlaylist.Columns[1].Width = 100;
+            lvPlaylist.Columns[2].Width = 250;
+            lvPlaylist.Columns[3].Width = 39;
+            lvPlaylist.Columns[4].Width = 111;
         }
 
 
@@ -52,7 +74,7 @@ namespace DevoPlayer
 
         }
 
-        public void remove(int positionInPlaylist)
+        public void removeAt(int positionInPlaylist)
         {
             if(positionInPlaylist > this.size)
             {
@@ -118,6 +140,13 @@ namespace DevoPlayer
         public void clear()
         {
             memoryPlaylist.Clear();
+
+            foreach (ListViewItem item in lvPlaylist.Items) 
+            {
+                lvPlaylist.Items.Remove(item);
+            }
+
+            
         }
 
         public PlaylistItem getLastItem()

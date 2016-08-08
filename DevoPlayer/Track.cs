@@ -58,20 +58,24 @@ namespace DevoPlayer
 
         private void extractTitle(TagLib.File tagFile)
         {
-            this.title = "test";
+            
 
             String tagTitle = tagFile.Tag.Title;
+            this.title = tagTitle;
 
-            // No title tag is found, so resort to file name.
-            String fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
-            int titleStartPos = fileName.LastIndexOf("-");
-            if (titleStartPos < 0)
+            if (tagTitle.Length < 1)
             {
-                this.title = fileName;
-            }
-            else
-            {
-                this.title = fileName.Substring(titleStartPos + 2); // +2 for the 2 spaces after the dash
+                // No title tag is found, so resort to file name.
+                String fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                int titleStartPos = fileName.LastIndexOf("-");
+                if (titleStartPos < 0)
+                {
+                    this.title = fileName;
+                }
+                else
+                {
+                    this.title = fileName.Substring(titleStartPos + 2); // +2 for the 2 spaces after the dash
+                }
             }
 
         }
